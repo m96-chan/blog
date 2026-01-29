@@ -15,100 +15,170 @@ const posts = (await getCollection('blog')).sort(
 <!doctype html>
 <html lang="en">
 	<head>
-		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-		<style>
-			main {
-				width: 960px;
-			}
-			ul {
-				display: flex;
-				flex-wrap: wrap;
-				gap: 2rem;
-				list-style-type: none;
-				margin: 0;
-				padding: 0;
-			}
-			ul li {
-				width: calc(50% - 1rem);
-			}
-			ul li * {
-				text-decoration: none;
-				transition: 0.2s ease;
-			}
-			ul li:first-child {
-				width: 100%;
-				margin-bottom: 1rem;
-				text-align: center;
-			}
-			ul li:first-child img {
-				width: 100%;
-			}
-			ul li:first-child .title {
-				font-size: 2.369rem;
-			}
-			ul li img {
-				margin-bottom: 0.5rem;
-				border-radius: 12px;
-			}
-			ul li a {
-				display: block;
-			}
-			.title {
-				margin: 0;
-				color: rgb(var(--black));
-				line-height: 1;
-			}
-			.date {
-				margin: 0;
-				color: rgb(var(--gray));
-			}
-			ul li a:hover h4,
-			ul li a:hover .date {
-				color: rgb(var(--accent));
-			}
-			ul a:hover img {
-				box-shadow: var(--box-shadow);
-			}
-			@media (max-width: 720px) {
-				ul {
-					gap: 0.5em;
-				}
-				ul li {
-					width: 100%;
-					text-align: center;
-				}
-				ul li:first-child {
-					margin-bottom: 0;
-				}
-				ul li:first-child .title {
-					font-size: 1.563em;
-				}
-			}
-		</style>
+		<BaseHead title={`Blog | ${SITE_TITLE}`} description={SITE_DESCRIPTION} />
 	</head>
 	<body>
 		<Header />
 		<main>
-			<section>
-				<ul>
-					{
-						posts.map((post) => (
-							<li>
-								<a href={`/blog/${post.id}/`}>
-									{post.data.heroImage && (
-										<Image width={720} height={360} src={post.data.heroImage} alt="" />
-									)}
-									<h4 class="title">{post.data.title}</h4>
-									<p class="date">
+			<section class="hero">
+				<h1>Blog</h1>
+				<p>Thoughts, tutorials, and insights on development.</p>
+			</section>
+			<section class="posts">
+				{
+					posts.map((post) => (
+						<article class="post-card">
+							<a href={`/blog/${post.id}/`}>
+								{post.data.heroImage && (
+									<div class="post-image">
+										<Image
+											width={720}
+											height={360}
+											src={post.data.heroImage}
+											alt={post.data.title}
+										/>
+									</div>
+								)}
+								<div class="post-content">
+									<h2 class="post-title">{post.data.title}</h2>
+									<p class="post-date">
 										<FormattedDate date={post.data.pubDate} />
 									</p>
-								</a>
-							</li>
-						))
-					}
-				</ul>
+									{post.data.description && (
+										<p class="post-description">{post.data.description}</p>
+									)}
+								</div>
+							</a>
+						</article>
+					))
+				}
 			</section>
 		</main>
 		<Footer />
 	</body>
 </html>
+
+<style>
+	main {
+		max-width: 1000px;
+	}
+
+	.hero {
+		text-align: center;
+		margin-bottom: 60px;
+	}
+
+	.hero h1 {
+		font-size: 3rem;
+		margin-bottom: 16px;
+		background: var(--gradient-1);
+		-webkit-background-clip: text;
+		-webkit-text-fill-color: transparent;
+		background-clip: text;
+	}
+
+	.hero p {
+		font-size: 1.25rem;
+		color: var(--text-secondary);
+		margin: 0;
+	}
+
+	.posts {
+		display: grid;
+		grid-template-columns: repeat(2, 1fr);
+		gap: 24px;
+	}
+
+	.post-card {
+		background: var(--bg-card);
+		border: 1px solid var(--border-color);
+		border-radius: 16px;
+		overflow: hidden;
+		transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+		position: relative;
+	}
+
+	.post-card::before {
+		content: '';
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		height: 3px;
+		background: var(--gradient-1);
+		opacity: 0;
+		transition: opacity 0.3s ease;
+	}
+
+	.post-card:hover {
+		transform: translateY(-4px);
+		box-shadow: var(--box-shadow-hover);
+		border-color: var(--accent);
+	}
+
+	.post-card:hover::before {
+		opacity: 1;
+	}
+
+	.post-card a {
+		display: block;
+		text-decoration: none;
+	}
+
+	.post-image {
+		overflow: hidden;
+	}
+
+	.post-image img {
+		width: 100%;
+		height: 200px;
+		object-fit: cover;
+		border-radius: 0;
+		transition: transform 0.3s ease;
+	}
+
+	.post-card:hover .post-image img {
+		transform: scale(1.05);
+	}
+
+	.post-content {
+		padding: 24px;
+	}
+
+	.post-title {
+		font-size: 1.25rem;
+		color: var(--text-primary);
+		margin-bottom: 8px;
+		line-height: 1.4;
+	}
+
+	.post-date {
+		font-size: 0.875rem;
+		color: var(--accent-light);
+		margin-bottom: 12px;
+	}
+
+	.post-description {
+		font-size: 0.9rem;
+		color: var(--text-secondary);
+		margin: 0;
+		display: -webkit-box;
+		-webkit-line-clamp: 2;
+		-webkit-box-orient: vertical;
+		overflow: hidden;
+	}
+
+	@media (max-width: 720px) {
+		.hero h1 {
+			font-size: 2rem;
+		}
+
+		.posts {
+			grid-template-columns: 1fr;
+		}
+
+		.post-image img {
+			height: 180px;
+		}
+	}
+</style>
