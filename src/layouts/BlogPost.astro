@@ -8,7 +8,7 @@ import Header from '../components/Header.astro';
 
 type Props = CollectionEntry<'blog'>['data'];
 
-const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
+const { title, description, pubDate, updatedDate, heroImage, category } = Astro.props;
 ---
 
 <html lang="en">
@@ -28,6 +28,7 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 				<div class="prose">
 					<header class="post-header">
 						<div class="post-meta">
+							<a href={`/blog/category/${category}/`} class="category-badge">{category}</a>
 							<FormattedDate date={pubDate} />
 							{updatedDate && (
 								<span class="updated">
@@ -83,6 +84,27 @@ const { title, description, pubDate, updatedDate, heroImage } = Astro.props;
 		font-size: 0.9rem;
 		color: var(--accent-light);
 		margin-bottom: 16px;
+		display: flex;
+		align-items: center;
+		gap: 12px;
+	}
+
+	.category-badge {
+		font-family: 'JetBrains Mono', monospace;
+		font-size: 0.75rem;
+		font-weight: 500;
+		color: var(--accent-light);
+		background: rgba(99, 102, 241, 0.1);
+		border: 1px solid rgba(99, 102, 241, 0.2);
+		padding: 3px 10px;
+		border-radius: 6px;
+		text-decoration: none;
+		transition: all 0.3s ease;
+	}
+
+	.category-badge:hover {
+		background: rgba(99, 102, 241, 0.2);
+		border-color: var(--accent);
 	}
 
 	.updated {

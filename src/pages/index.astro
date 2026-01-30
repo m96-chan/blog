@@ -59,6 +59,7 @@ const posts = (await getCollection('blog')).sort(
 										</div>
 									)}
 									<div class="post-content">
+										<span class="category-badge">{post.data.category}</span>
 										<h3 class="post-title">{post.data.title}</h3>
 										<p class="post-date">
 											<FormattedDate date={post.data.pubDate} />
@@ -296,6 +297,19 @@ const posts = (await getCollection('blog')).sort(
 		font-size: 0.8rem;
 		color: var(--accent-light);
 		margin: 0;
+	}
+
+	.category-badge {
+		display: inline-block;
+		font-family: 'JetBrains Mono', monospace;
+		font-size: 0.7rem;
+		font-weight: 500;
+		color: var(--accent-light);
+		background: rgba(99, 102, 241, 0.1);
+		border: 1px solid rgba(99, 102, 241, 0.2);
+		padding: 2px 8px;
+		border-radius: 6px;
+		margin-bottom: 8px;
 	}
 
 	@media (max-width: 720px) {

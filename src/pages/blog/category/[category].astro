@@ -1,34 +1,48 @@
 ---
 import { Image } from 'astro:assets';
 import { getCollection } from 'astro:content';
-import BaseHead from '../../components/BaseHead.astro';
-import Footer from '../../components/Footer.astro';
-import FormattedDate from '../../components/FormattedDate.astro';
-import Header from '../../components/Header.astro';
-import { SITE_DESCRIPTION, SITE_TITLE } from '../../consts';
+import BaseHead from '../../../components/BaseHead.astro';
+import Footer from '../../../components/Footer.astro';
+import FormattedDate from '../../../components/FormattedDate.astro';
+import Header from '../../../components/Header.astro';
+import { SITE_TITLE } from '../../../consts';
 
-const posts = (await getCollection('blog')).sort(
-	(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
-);
+export async function getStaticPaths() {
+	const categories = ['Tech', 'Life', 'Tutorial'] as const;
+	const allPosts = await getCollection('blog');
+	return categories.map((category) => ({
+		params: { category },
+		props: {
+			posts: allPosts
+				.filter((post) => post.data.category === category)
+				.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()),
+		},
+	}));
+}
+
+const categories = ['Tech', 'Life', 'Tutorial'] as const;
+
+const { category } = Astro.params;
+const { posts } = Astro.props;
 ---
 
 <!doctype html>
 <html lang="en">
 	<head>
-		<BaseHead title={`Blog | ${SITE_TITLE}`} description={SITE_DESCRIPTION} />
+		<BaseHead title={`${category} | ${SITE_TITLE}`} description={`${category} category posts.`} />
 	</head>
 	<body>
 		<Header />
 		<main>
 			<section class="hero">
-				<h1>Blog</h1>
-				<p>Thoughts, tutorials, and insights on development.</p>
+				<h1>{category}</h1>
+				<p>{posts.length} post{posts.length !== 1 ? 's' : ''}</p>
 			</section>
 			<nav class="category-tabs">
-				<a href="/blog" class="tab active">All</a>
-				<a href="/blog/category/Tech/" class="tab">Tech</a>
-				<a href="/blog/category/Life/" class="tab">Life</a>
-				<a href="/blog/category/Tutorial/" class="tab">Tutorial</a>
+				<a href="/blog" class="tab">All</a>
+				{categories.map((cat) => (
+					<a href={`/blog/category/${cat}/`} class:list={['tab', { active: cat === category }]}>{cat}</a>
+				))}
 			</nav>
 			<section class="posts">
 				{
@@ -59,6 +73,9 @@ const posts = (await getCollection('blog')).sort(
 						</article>
 					))
 				}
+				{posts.length === 0 && (
+					<p class="no-posts">No posts in this category yet.</p>
+				)}
 			</section>
 		</main>
 		<Footer />
@@ -72,7 +89,7 @@ const posts = (await getCollection('blog')).sort(
 
 	.hero {
 		text-align: center;
-		margin-bottom: 60px;
+		margin-bottom: 40px;
 	}
 
 	.hero h1 {
@@ -88,6 +105,37 @@ const posts = (await getCollection('blog')).sort(
 		font-size: 1.25rem;
 		color: var(--text-secondary);
 		margin: 0;
+	}
+
+	.category-tabs {
+		display: flex;
+		justify-content: center;
+		gap: 12px;
+		margin-bottom: 40px;
+	}
+
+	.tab {
+		font-family: 'JetBrains Mono', monospace;
+		font-size: 0.85rem;
+		font-weight: 500;
+		color: var(--text-secondary);
+		background: var(--bg-card);
+		border: 1px solid var(--border-color);
+		padding: 8px 20px;
+		border-radius: 8px;
+		text-decoration: none;
+		transition: all 0.3s ease;
+	}
+
+	.tab:hover {
+		color: var(--text-primary);
+		border-color: var(--accent);
+	}
+
+	.tab.active {
+		color: #fff;
+		background: var(--accent);
+		border-color: var(--accent);
 	}
 
 	.posts {
@@ -152,6 +200,19 @@ const posts = (await getCollection('blog')).sort(
 		padding: 24px;
 	}
 
+	.category-badge {
+		display: inline-block;
+		font-family: 'JetBrains Mono', monospace;
+		font-size: 0.75rem;
+		font-weight: 500;
+		color: var(--accent-light);
+		background: rgba(99, 102, 241, 0.1);
+		border: 1px solid rgba(99, 102, 241, 0.2);
+		padding: 3px 10px;
+		border-radius: 6px;
+		margin-bottom: 10px;
+	}
+
 	.post-title {
 		font-size: 1.25rem;
 		color: var(--text-primary);
@@ -175,48 +236,12 @@ const posts = (await getCollection('blog')).sort(
 		overflow: hidden;
 	}
 
-	.category-tabs {
-		display: flex;
-		justify-content: center;
-		gap: 12px;
-		margin-bottom: 40px;
-	}
-
-	.tab {
-		font-family: 'JetBrains Mono', monospace;
-		font-size: 0.85rem;
-		font-weight: 500;
+	.no-posts {
+		grid-column: 1 / -1;
+		text-align: center;
 		color: var(--text-secondary);
-		background: var(--bg-card);
-		border: 1px solid var(--border-color);
-		padding: 8px 20px;
-		border-radius: 8px;
-		text-decoration: none;
-		transition: all 0.3s ease;
-	}
-
-	.tab:hover {
-		color: var(--text-primary);
-		border-color: var(--accent);
-	}
-
-	.tab.active {
-		color: #fff;
-		background: var(--accent);
-		border-color: var(--accent);
-	}
-
-	.category-badge {
-		display: inline-block;
-		font-family: 'JetBrains Mono', monospace;
-		font-size: 0.75rem;
-		font-weight: 500;
-		color: var(--accent-light);
-		background: rgba(99, 102, 241, 0.1);
-		border: 1px solid rgba(99, 102, 241, 0.2);
-		padding: 3px 10px;
-		border-radius: 6px;
-		margin-bottom: 10px;
+		font-size: 1.1rem;
+		padding: 60px 0;
 	}
 
 	@media (max-width: 720px) {
