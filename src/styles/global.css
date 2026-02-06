@@ -19,6 +19,12 @@
 	box-sizing: border-box;
 	margin: 0;
 	padding: 0;
+	word-break: break-word;
+	overflow-wrap: break-word;
+}
+
+html, body {
+	overflow-x: hidden;
 }
 
 html {
@@ -164,6 +170,9 @@ table {
 	width: 100%;
 	border-collapse: collapse;
 	margin: 1.5em 0;
+	display: block;
+	overflow-x: auto;
+	-webkit-overflow-scrolling: touch;
 }
 
 th, td {
@@ -225,24 +234,4 @@ th {
 	h2 {
 		font-size: 1.25rem;
 	}
-}
-
-/* モバイルでのはみ出し防止 */
-html, body {
-	overflow-x: hidden;
-}
-
-* {
-	word-break: break-word;
-	overflow-wrap: break-word;
-}
-
-table {
-	display: block;
-	overflow-x: auto;
-	-webkit-overflow-scrolling: touch;
-}
-
-pre {
-	max-width: 100%;
 }
