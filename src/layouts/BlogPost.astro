@@ -237,11 +237,27 @@ const shareUrl = Astro.url.href;
 
 	@media (max-width: 720px) {
 		.post-header h1 {
-			font-size: 2rem;
+			font-size: 1.5rem;
 		}
 
 		.description {
-			font-size: 1.1rem;
+			font-size: 1rem;
+		}
+
+		.prose {
+			max-width: 100%;
+		}
+
+		.content :global(pre) {
+			padding: 16px;
+			font-size: 0.8rem;
+		}
+
+		.content :global(table) {
+			display: block;
+			overflow-x: auto;
+			-webkit-overflow-scrolling: touch;
+			font-size: 0.85rem;
 		}
 	}
 </style>

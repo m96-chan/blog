@@ -219,10 +219,30 @@ th {
 	}
 
 	h1 {
-		font-size: 2rem;
+		font-size: 1.5rem;
 	}
 
 	h2 {
-		font-size: 1.5rem;
+		font-size: 1.25rem;
 	}
+}
+
+/* モバイルでのはみ出し防止 */
+html, body {
+	overflow-x: hidden;
+}
+
+* {
+	word-break: break-word;
+	overflow-wrap: break-word;
+}
+
+table {
+	display: block;
+	overflow-x: auto;
+	-webkit-overflow-scrolling: touch;
+}
+
+pre {
+	max-width: 100%;
 }
