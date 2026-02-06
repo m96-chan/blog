@@ -6,6 +6,7 @@ import Footer from '../components/Footer.astro';
 import FormattedDate from '../components/FormattedDate.astro';
 import Header from '../components/Header.astro';
 import ShareButtons from '../components/ShareButtons.astro';
+import TableOfContents from '../components/TableOfContents.astro';
 
 type Props = CollectionEntry<'blog'>['data'];
 
@@ -21,33 +22,38 @@ const shareUrl = Astro.url.href;
 	<body>
 		<Header />
 		<main>
-			<article>
-				{heroImage && (
-					<div class="hero-image">
-						<Image width={1020} height={510} src={heroImage} alt={title} />
-					</div>
-				)}
-				<div class="prose">
-					<header class="post-header">
-						<div class="post-meta">
-							<a href={`/blog/category/${category}/`} class="category-badge">{category}</a>
-							<FormattedDate date={pubDate} />
-							{updatedDate && (
-								<span class="updated">
-									· Updated <FormattedDate date={updatedDate} />
-								</span>
-							)}
+			<div class="post-layout">
+				<article>
+					{heroImage && (
+						<div class="hero-image">
+							<Image width={1020} height={510} src={heroImage} alt={title} />
 						</div>
-						<h1>{title}</h1>
-						{description && <p class="description">{description}</p>}
-					</header>
-					<ShareButtons url={shareUrl} title={title} />
-					<div class="content">
-						<slot />
+					)}
+					<div class="prose">
+						<header class="post-header">
+							<div class="post-meta">
+								<a href={`/blog/category/${category}/`} class="category-badge">{category}</a>
+								<FormattedDate date={pubDate} />
+								{updatedDate && (
+									<span class="updated">
+										· Updated <FormattedDate date={updatedDate} />
+									</span>
+								)}
+							</div>
+							<h1>{title}</h1>
+							{description && <p class="description">{description}</p>}
+						</header>
+						<ShareButtons url={shareUrl} title={title} />
+						<div class="content">
+							<slot />
+						</div>
+						<ShareButtons url={shareUrl} title={title} />
 					</div>
-					<ShareButtons url={shareUrl} title={title} />
-				</div>
-			</article>
+				</article>
+				<aside class="toc-sidebar">
+					<TableOfContents />
+				</aside>
+			</div>
 		</main>
 		<Footer />
 	</body>
@@ -55,11 +61,33 @@ const shareUrl = Astro.url.href;
 
 <style>
 	main {
-		max-width: 800px;
+		max-width: 1100px;
+	}
+
+	.post-layout {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) 200px;
+		gap: 40px;
+		align-items: start;
 	}
 
 	article {
 		padding-top: 20px;
+		max-width: 800px;
+	}
+
+	.toc-sidebar {
+		padding-top: 20px;
+	}
+
+	@media (max-width: 1100px) {
+		.post-layout {
+			grid-template-columns: 1fr;
+		}
+
+		.toc-sidebar {
+			display: none;
+		}
 	}
 
 	.hero-image {

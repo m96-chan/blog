@@ -2,10 +2,14 @@
 
 import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
+import rehypeSlug from 'rehype-slug';
 import { defineConfig } from 'astro/config';
 
 // https://astro.build/config
 export default defineConfig({
 	site: 'https://blog.m96-chan.dev',
 	integrations: [mdx(), sitemap()],
+	markdown: {
+		rehypePlugins: [rehypeSlug],
+	},
 });

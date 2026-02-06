@@ -3,6 +3,7 @@ title: 'マレーシア移住を考える【1/2】'
 description: ''
 category: 'Life'
 pubDate: '2026-01-30'
+heroImage: '../../assets/jb/forest-city-entrance.jpg'
 ---
 
 # 前置き:マレーシア移住を考える

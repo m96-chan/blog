@@ -3,6 +3,7 @@ title: 'マレーシア移住を考える【2/2】'
 description: ''
 category: 'Life'
 pubDate: '2026-02-06'
+heroImage: '../../assets/kl/klcc-fountain-night.jpg'
 ---
 
 # JBからKLへ：KTMで4時間半の電車旅
