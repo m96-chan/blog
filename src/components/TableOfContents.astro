@@ -14,17 +14,23 @@
 		const contentArea = document.querySelector('.content');
 		if (!contentArea) return;
 
-		const headings = contentArea.querySelectorAll('h2[id], h3[id]');
+		const headings = contentArea.querySelectorAll('h1[id], h2[id], h3[id]');
 		if (headings.length === 0) {
 			const tocNav = tocList.closest('.toc');
 			if (tocNav) tocNav.style.display = 'none';
 			return;
 		}
 
+		// Determine the minimum heading level to use as base (no indent)
+		const levels = Array.from(headings).map((h) => parseInt(h.tagName[1]));
+		const minLevel = Math.min(...levels);
+
 		// Build TOC items
 		headings.forEach((heading) => {
+			const level = parseInt(heading.tagName[1]);
+			const depth = level - minLevel; // 0, 1, or 2
 			const li = document.createElement('li');
-			li.className = heading.tagName === 'H3' ? 'toc-item toc-h3' : 'toc-item';
+			li.className = 'toc-item' + (depth > 0 ? ` toc-depth-${depth}` : '');
 
 			const a = document.createElement('a');
 			a.href = `#${heading.id}`;
@@ -104,8 +110,12 @@
 		margin: 0;
 	}
 
-	.toc-h3 {
+	.toc-depth-1 {
 		padding-left: 12px;
+	}
+
+	.toc-depth-2 {
+		padding-left: 24px;
 	}
 
 	.toc-link {
