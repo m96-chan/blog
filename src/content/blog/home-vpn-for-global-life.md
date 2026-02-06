@@ -3,6 +3,7 @@ title: '海外を視野にいれた家庭内VPNを整備する'
 description: 'Tailscale + ASUS Merlin + クラウドインスタンスで、世界中どこからでも自宅ネットワークにアクセスできる環境を構築する'
 category: 'Tech'
 pubDate: '2026-02-06'
+heroImage: '../../assets/vpn-hero.jpg'
 ---
 
 # はじめに：エンジニアにNordVPNはいらない
