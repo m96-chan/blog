@@ -5,10 +5,12 @@ import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import FormattedDate from '../components/FormattedDate.astro';
 import Header from '../components/Header.astro';
+import ShareButtons from '../components/ShareButtons.astro';
 
 type Props = CollectionEntry<'blog'>['data'];
 
 const { title, description, pubDate, updatedDate, heroImage, category } = Astro.props;
+const shareUrl = Astro.url.href;
 ---
 
 <html lang="en">
@@ -39,9 +41,11 @@ const { title, description, pubDate, updatedDate, heroImage, category } = Astro.
 						<h1>{title}</h1>
 						{description && <p class="description">{description}</p>}
 					</header>
+					<ShareButtons url={shareUrl} title={title} />
 					<div class="content">
 						<slot />
 					</div>
+					<ShareButtons url={shareUrl} title={title} />
 				</div>
 			</article>
 		</main>

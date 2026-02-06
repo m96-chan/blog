@@ -1,0 +1,112 @@
+---
+interface Props {
+	url: string;
+	title: string;
+}
+
+const { url, title } = Astro.props;
+
+const encodedUrl = encodeURIComponent(url);
+const encodedTitle = encodeURIComponent(title);
+
+const shareLinks = [
+	{
+		name: 'X',
+		href: `https://twitter.com/intent/tweet?url=${encodedUrl}&text=${encodedTitle}`,
+		icon: `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>`,
+	},
+	{
+		name: 'Facebook',
+		href: `https://www.facebook.com/sharer/sharer.php?u=${encodedUrl}`,
+		icon: `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>`,
+	},
+	{
+		name: 'Bluesky',
+		href: `https://bsky.app/intent/compose?text=${encodedTitle}+${encodedUrl}`,
+		icon: `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 10.8c-1.087-2.114-4.046-6.053-6.798-7.995C2.566.944 1.561 1.266.902 1.565.139 1.908 0 3.08 0 3.768c0 .69.378 5.65.624 6.479.785 2.627 3.6 3.476 6.158 3.226-4.476.767-8.407 2.63-4.92 9.036 3.843 6.27 6.866-1.57 8.138-4.538.134-.313.206-.49.206-.49s.072.177.206.49c1.272 2.967 4.295 10.807 8.138 4.538 3.487-6.406-.444-8.27-4.92-9.036 2.558.25 5.373-.6 6.158-3.226C20.622 9.418 21 4.458 21 3.768c0-.69-.139-1.861-.902-2.203-.659-.3-1.664-.62-4.3 1.24C13.046 4.748 10.087 8.687 9 10.8h3z"/></svg>`,
+	},
+	{
+		name: 'はてブ',
+		href: `https://b.hatena.ne.jp/entry/${url}`,
+		icon: `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M20.47 0C22.42 0 24 1.58 24 3.53v16.94c0 1.95-1.58 3.53-3.53 3.53H3.53C1.58 24 0 22.42 0 20.47V3.53C0 1.58 1.58 0 3.53 0h16.94zm-3.705 14.47c-.78 0-1.41.63-1.41 1.41s.63 1.414 1.41 1.414 1.41-.634 1.41-1.414-.63-1.41-1.41-1.41zm-1.17-4.22c.5-.39.79-.97.79-1.66 0-.99-.62-1.78-1.58-2.07-.48-.14-1.07-.19-1.77-.19h-2.68v3.93h2.68c.94 0 1.66-.22 2.13-.58.32-.25.52-.58.57-.96.02-.15.03-.31-.14-.47zm-.12 2.24c-.54-.38-1.28-.56-2.2-.56h-2.68v4.26h2.68c.93 0 1.66-.19 2.2-.56.53-.38.81-.93.81-1.57s-.28-1.19-.81-1.57zM8.61 8.35H6.8v7.3h1.81V8.35z"/></svg>`,
+	},
+	{
+		name: 'LINE',
+		href: `https://social-plugins.line.me/lineit/share?url=${encodedUrl}`,
+		icon: `<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M24 10.304c0-5.369-5.383-9.738-12-9.738-6.616 0-12 4.369-12 9.738 0 4.814 4.269 8.846 10.036 9.608.391.084.922.258 1.057.592.121.303.079.778.039 1.085l-.171 1.027c-.053.303-.242 1.186 1.039.647 1.281-.54 6.911-4.069 9.428-6.967C23.101 14.479 24 12.515 24 10.304zm-15.086 2.919H6.914a.41.41 0 01-.41-.41V8.42a.41.41 0 01.41-.41.41.41 0 01.41.41v3.984h1.59a.41.41 0 01.41.41.41.41 0 01-.41.41zm1.693-.41a.41.41 0 01-.41.41.41.41 0 01-.41-.41V8.42a.41.41 0 01.41-.41.41.41 0 01.41.41v4.393zm4.467 0a.41.41 0 01-.41.41.41.41 0 01-.322-.156l-2.2-2.99v2.736a.41.41 0 01-.41.41.41.41 0 01-.41-.41V8.42a.41.41 0 01.41-.41.41.41 0 01.322.158l2.2 2.99V8.42a.41.41 0 01.41-.41.41.41 0 01.41.41v4.393zm2.77-3.16a.41.41 0 01.41.41.41.41 0 01-.41.41h-1.59v.927h1.59a.41.41 0 01.41.41.41.41 0 01-.41.41h-2a.41.41 0 01-.41-.41V8.42a.41.41 0 01.41-.41h2a.41.41 0 01.41.41.41.41 0 01-.41.41h-1.59v.824h1.59z"/></svg>`,
+	},
+];
+---
+
+<div class="share-buttons">
+	<span class="share-label">Share</span>
+	<div class="share-links">
+		{shareLinks.map((link) => (
+			<a
+				href={link.href}
+				target="_blank"
+				rel="noopener noreferrer"
+				class="share-button"
+				aria-label={`Share on ${link.name}`}
+				title={link.name}
+			>
+				<Fragment set:html={link.icon} />
+			</a>
+		))}
+	</div>
+</div>
+
+<style>
+	.share-buttons {
+		display: flex;
+		align-items: center;
+		gap: 16px;
+		padding: 16px 0;
+	}
+
+	.share-label {
+		font-family: 'JetBrains Mono', monospace;
+		font-size: 0.8rem;
+		font-weight: 500;
+		color: var(--text-secondary);
+		text-transform: uppercase;
+		letter-spacing: 0.05em;
+	}
+
+	.share-links {
+		display: flex;
+		gap: 8px;
+	}
+
+	.share-button {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		width: 36px;
+		height: 36px;
+		border-radius: 8px;
+		background: var(--bg-card);
+		border: 1px solid var(--border-color);
+		color: var(--text-secondary);
+		text-decoration: none;
+		transition: all 0.2s ease;
+	}
+
+	.share-button:hover {
+		color: var(--accent-light);
+		border-color: var(--accent);
+		background: rgba(99, 102, 241, 0.1);
+		transform: translateY(-2px);
+	}
+
+	@media (max-width: 720px) {
+		.share-buttons {
+			gap: 12px;
+		}
+
+		.share-button {
+			width: 34px;
+			height: 34px;
+		}
+	}
+</style>
