@@ -3,7 +3,7 @@ title: '画面バキバキのAndroidにAIエージェントを構築した話【
 description: '画面に縦線が走るジャンクのRedMagic 8にOpenClawを入れて、WhatsApp経由AIエージェントを24/7運用する方法。Mac Mini 7万円の代替を0円で。'
 category: 'Tech'
 pubDate: '2026-02-12'
-heroImage: ''
+heroImage: '../../assets/broken-android-hero.jpg'
 ---
 
 # Mac Mini並べてる場合じゃない
