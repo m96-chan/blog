@@ -3,7 +3,7 @@ title: 'x402とは？HTTPネイティブな決済プロトコルの全貌'
 description: 'HTTPステータスコード402を活用したx402プロトコル。アカウント不要・DB不要のAPI課金を実現する次世代Web決済の仕組みを解説'
 category: 'Tech'
 pubDate: '2026-02-09'
-heroImage: '../../assets/x402-hero.jpg'
+heroImage: '../../assets/blog-placeholder-3.jpg'
 ---
 
 # はじめに：HTTPには「支払い」のステータスコードがある
